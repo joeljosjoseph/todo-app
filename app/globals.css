@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --font-display: "Aptos Display", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Aptos", "Segoe UI", sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+button,
+input {
+  font: inherit;
+}
