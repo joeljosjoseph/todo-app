@@ -1,22 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { addTask, sortTasks } from "../lib/tasks.mjs";
 
 const STORAGE_KEY = "prooflist.tasks";
-
-function sortTasks(tasks) {
-  return [...tasks].sort((left, right) => {
-    if (left.completedAt && right.completedAt) {
-      return right.completedAt - left.completedAt;
-    }
-
-    if (!left.completedAt && !right.completedAt) {
-      return right.createdAt - left.createdAt;
-    }
-
-    return left.completedAt ? 1 : -1;
-  });
-}
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -50,20 +37,16 @@ export default function Home() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const text = draft.trim();
+    const nextState = addTask({
+      tasks,
+      draft,
+    });
 
-    if (!text) {
+    if (!nextState) {
       return;
     }
 
-    const nextTask = {
-      id: crypto.randomUUID(),
-      text,
-      createdAt: Date.now(),
-      completedAt: null,
-    };
-
-    setTasks((currentTasks) => sortTasks([nextTask, ...currentTasks]));
+    setTasks(nextState.tasks);
     setDraft("");
     setPendingDeleteId(null);
   }
